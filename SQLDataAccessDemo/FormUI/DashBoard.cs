@@ -25,5 +25,18 @@ namespace FormUI
             people = db.GetPeople(LastNameText.Text);
             UpdateBinding();
         }
+
+        private void InsertRecordButton_Click(object sender, EventArgs e)
+        {
+            DataAccess db = new DataAccess();
+
+            db.InsertPerson(firstNameInsText.Text, lastNameInsText.Text, emailAdressInsText.Text, numberPhoneInsText.Text);
+            MessageBox.Show("Data successfully added!");
+
+            firstNameInsText.Clear();
+            lastNameInsText.Clear();
+            emailAdressInsText.Clear();
+            numberPhoneInsText.Clear();
+        }
     }
 }
