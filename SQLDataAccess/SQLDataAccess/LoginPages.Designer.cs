@@ -59,6 +59,8 @@
             // 
             // userNameText
             // 
+            this.userNameText.BackColor = System.Drawing.SystemColors.Info;
+            this.userNameText.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.userNameText.Location = new System.Drawing.Point(309, 160);
             this.userNameText.Multiline = true;
             this.userNameText.Name = "userNameText";
@@ -69,7 +71,7 @@
             // 
             this.registrationLabel.AutoSize = true;
             this.registrationLabel.LinkColor = System.Drawing.Color.SaddleBrown;
-            this.registrationLabel.Location = new System.Drawing.Point(364, 438);
+            this.registrationLabel.Location = new System.Drawing.Point(348, 436);
             this.registrationLabel.Name = "registrationLabel";
             this.registrationLabel.Size = new System.Drawing.Size(84, 17);
             this.registrationLabel.TabIndex = 1;
@@ -78,11 +80,12 @@
             // 
             // logInButton
             // 
-            this.logInButton.Location = new System.Drawing.Point(346, 355);
+            this.logInButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.logInButton.Location = new System.Drawing.Point(325, 327);
             this.logInButton.Name = "logInButton";
-            this.logInButton.Size = new System.Drawing.Size(110, 30);
+            this.logInButton.Size = new System.Drawing.Size(141, 62);
             this.logInButton.TabIndex = 0;
-            this.logInButton.Text = "Log in";
+            this.logInButton.Text = "LogIn";
             this.logInButton.UseVisualStyleBackColor = true;
             this.logInButton.Click += new System.EventHandler(this.LogInButton_Click);
             // 
@@ -98,6 +101,8 @@
             // 
             // passwordText
             // 
+            this.passwordText.BackColor = System.Drawing.SystemColors.Info;
+            this.passwordText.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.passwordText.Location = new System.Drawing.Point(309, 252);
             this.passwordText.Multiline = true;
             this.passwordText.Name = "passwordText";
@@ -108,6 +113,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.DarkKhaki;
             this.ClientSize = new System.Drawing.Size(802, 483);
             this.Controls.Add(this.passwordText);
             this.Controls.Add(this.welcomeLabel);

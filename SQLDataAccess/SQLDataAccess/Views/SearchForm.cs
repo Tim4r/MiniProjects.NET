@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using SQLDataAccess.Model;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows.Forms;
 
 namespace SQLDataAccess.Views
 {
@@ -8,11 +11,22 @@ namespace SQLDataAccess.Views
         {
             InitializeComponent();
         }
+        private void SearchForm_Load(object sender, System.EventArgs e)
+        {
+            DataAccess db = new DataAccess();
 
+            data_OverView.DataSource = db.DataTableView();
+            data_OverView.Columns["FullInfo"].Visible = false;
+        }
         private void SearchForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            MessageBox.Show("Are you sure you want to get out?", "Close_Window", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            Application.Exit();
+            var Ansver = MessageBox.Show("Are you sure you want to exit?", "Application Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (Ansver == DialogResult.Yes) { Application.Exit(); }
+
+        }
+        private void EditToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+
         }
     }
 }
