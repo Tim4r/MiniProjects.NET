@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SQLDataAccess.Model
 {
-    class Person
+    public class Person
     {
         public int ID { get; set; }
         public string First_Name { get; set; }
@@ -21,5 +21,7 @@ namespace SQLDataAccess.Model
                 return $"{ First_Name } { Last_Name } ({ Email_Address })";
             }
         }
+
+        public IEnumerable<Person> DefaultPeople { get; internal set; }
     }
 }

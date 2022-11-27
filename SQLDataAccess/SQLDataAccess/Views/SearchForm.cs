@@ -1,4 +1,5 @@
 ﻿using SQLDataAccess.Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows.Forms;
@@ -7,6 +8,7 @@ namespace SQLDataAccess.Views
 {
     public partial class SearchForm : Form
     {
+        public List<Person> NewPeople = new List<Person>();
         public SearchForm()
         {
             InitializeComponent();
@@ -14,47 +16,65 @@ namespace SQLDataAccess.Views
         private void SearchForm_Load(object sender, System.EventArgs e)
         {
             ViewData();
+            CheckSearchTextBox();
         }
         private void ViewData()
         {
-            DataAccess db = new DataAccess();
-            data_OverView.DataSource = db.DataTableView();
+            data_OverView.DataSource = DataAccess.DataTableView();
             data_OverView.Columns["FullInfo"].Visible = false;
+            data_OverView.Columns["ID"].Visible = false;
+            data_OverView.Columns["DefaultPeople"].Visible = false;
+            data_OverView.BackgroundColor = data_OverView.DefaultCellStyle.BackColor;
+            viewButton.Enabled = false;
         }
-
-
-        private void EditToolStripMenuItem_Click(object sender, System.EventArgs e)
+        private void CheckSearchTextBox()
         {
-
+            if (searchTextBox.Text.Length > 0)
+            {
+                clearButton.Enabled = true;
+                searchButton.Enabled = true;
+            } else
+            {
+                clearButton.Enabled = false;
+                searchButton.Enabled = false;
+            }
         }
-        private void DeleteToolStripMenuItem_Click(object sender, System.EventArgs e)
-        {
-
-        }
-        
-
         private void SearchButton_Click(object sender, System.EventArgs e)
         {
-            DataAccess db = new DataAccess();
-            data_OverView.DataSource = db.SearchPeople(searchTextBox.Text);
-            clearButton.Enabled = true;
+            data_OverView.DataSource = DataAccess.SearchPeople(searchTextBox.Text);
+            viewButton.Enabled = true;
         }
         private void ClearButton_Click(object sender, System.EventArgs e)
         {
             searchTextBox.Clear();
-            clearButton.Enabled = false;
+            CheckSearchTextBox();
         }
         private void ViewButton_Click(object sender, System.EventArgs e)
         {
             ViewData();
         }
-        private void SaveChangesButton_Click(object sender, System.EventArgs e)
+        private void SaveChangesButton_Click(object sender, System.EventArgs e) // Доработка
         {
-           
+
+            var LocalNewPeople = new List<Person>(data_OverView.RowCount);
+
+            for (int index = 0; index < data_OverView.RowCount; index++)
+            {
+                var SelectedRow = data_OverView.Rows[index];
+                var person = (Person)SelectedRow.DataBoundItem;
+
+                LocalNewPeople.Add(person);
+            }
+            NewPeople = new List<Person>(LocalNewPeople);
+
+            DataAccess.UpdatePeople(NewPeople);
         }
         private void DeleteButton_Click(object sender, System.EventArgs e)
         {
-
+            int CelectedUser_ID = Convert.ToInt32(data_OverView.SelectedCells[0].Value);
+            DataAccess.DeletePeople(CelectedUser_ID);
+            MessageBox.Show("Data successfully deleted", "Successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ViewData();
         }
         private void SearchForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -62,6 +82,11 @@ namespace SQLDataAccess.Views
                 Application.Exit();
             else
                 e.Cancel = true;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            CheckSearchTextBox();
         }
     }
 }

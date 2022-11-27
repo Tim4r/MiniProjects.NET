@@ -69,20 +69,17 @@
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(47, 24);
             this.editToolStripMenuItem.Text = "Edit";
-            this.editToolStripMenuItem.Click += new System.EventHandler(this.EditToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(65, 24);
             this.deleteToolStripMenuItem.Text = "Delete";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.DeleteToolStripMenuItem_Click);
             // 
             // data_OverView
             // 
             this.data_OverView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.data_OverView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.data_OverView.Enabled = false;
             this.data_OverView.GridColor = System.Drawing.SystemColors.Info;
             this.data_OverView.Location = new System.Drawing.Point(35, 61);
             this.data_OverView.Name = "data_OverView";
@@ -99,6 +96,7 @@
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(221, 47);
             this.searchTextBox.TabIndex = 2;
+            this.searchTextBox.TextChanged += new System.EventHandler(this.SearchTextBox_TextChanged);
             // 
             // searchButton
             // 
