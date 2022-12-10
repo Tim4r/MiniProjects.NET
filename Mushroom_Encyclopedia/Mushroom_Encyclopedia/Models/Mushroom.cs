@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mushroom_picking.Models
+namespace Mushroom_Encyclopedia.Models
 {
     internal partial class Mushroom : Type
     {
@@ -9,7 +9,5 @@ namespace Mushroom_picking.Models
         public string Edibility { get; set; }
         public int Weight { get; set; }
         public int Cost { get; set; }
-
-        public IEnumerable<Mushroom> DefaultPeople { get; internal set; }
     }
 }

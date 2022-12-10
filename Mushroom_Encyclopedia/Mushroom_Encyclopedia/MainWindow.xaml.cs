@@ -1,8 +1,8 @@
-﻿using Mushroom_picking.Connection;
-using Mushroom_picking.Views;
-using System.Windows;
+﻿using System.Windows;
+using Mushroom_Encyclopedia.Connection;
+using Mushroom_Encyclopedia.Views;
 
-namespace Mushroom_picking
+namespace Mushroom_Encyclopedia
 {
     public partial class MainWindow : Window
     {
@@ -10,11 +10,12 @@ namespace Mushroom_picking
         {
             InitializeComponent();
         }
-        
+
         private void BtnSighIn_Click(object sender, RoutedEventArgs e)
         {
             if (DataAccess.LogIn(textBox_login.Text, textBox_password.Text))
             {
+                DataAccess.userRoleID = DataAccess.GetRoleID(textBox_login.Text, textBox_password.Text);
                 SearchDelete searchDelete = new SearchDelete();
                 Hide();
                 searchDelete.Show();

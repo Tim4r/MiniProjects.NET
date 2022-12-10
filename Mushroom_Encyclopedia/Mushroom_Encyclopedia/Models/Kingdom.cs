@@ -1,4 +1,4 @@
-﻿namespace Mushroom_picking.Models
+﻿namespace Mushroom_Encyclopedia.Models
 {
     internal abstract class Kingdom
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Mushroom_picking.Connection
+namespace Mushroom_Encyclopedia.Connection
 {
     class Helper
     {

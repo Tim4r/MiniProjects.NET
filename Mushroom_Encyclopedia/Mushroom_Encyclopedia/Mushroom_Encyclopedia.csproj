@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2B3158F8-FFCE-4A0B-84CB-42689C7505E9}</ProjectGuid>
+    <ProjectGuid>{06A306C5-B832-49D1-9E5F-7367F5615E7A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Mushroom_picking</RootNamespace>
     <AssemblyName>Mushroom_picking</AssemblyName>
@@ -66,7 +66,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\Mushroom.Bonus.cs" />
     <Compile Include="Views\AddMushroom.xaml.cs">
       <DependentUpon>AddMushroom.xaml</DependentUpon>
     </Compile>
