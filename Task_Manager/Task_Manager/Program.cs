@@ -1,10 +1,13 @@
-﻿namespace Task_Manager
+﻿using Task_Manager.Views;
+
+namespace Task_Manager
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine(ViewFirst.menu + ViewFirst.makeSelection);
+            Console.ReadLine();
         }
     }
 }
