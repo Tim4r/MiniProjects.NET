@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task_Manager.Entities
+namespace Todoist.Entities
 {
     public class Category
     {
