@@ -1,14 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Todoist.Entities
+﻿namespace Todoist.Entities
 {
     public class Category
     {
         public int Id { get; set; }
-        public string? NameCategory { get; set; }
+        public required string NameCategory { get; set; }
+        public ICollection<Goal> Goals { get; set; }
+
+        public override string? ToString()
+        {
+            string goals = "";
+            foreach (var goal in Goals) 
+            {
+                goals += $"{goal}\n";
+            }
+            return $"Category - {NameCategory}\n{goals}";
+        }
     }
 }

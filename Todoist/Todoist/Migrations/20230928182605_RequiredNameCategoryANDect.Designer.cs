@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Todoist.DataAccess;
 
@@ -11,9 +12,11 @@ using Todoist.DataAccess;
 namespace Todoist.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230928182605_RequiredNameCategoryANDect")]
+    partial class RequiredNameCategoryANDect
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,6 +37,12 @@ namespace Todoist.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("testField")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("testField2")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -47,7 +56,7 @@ namespace Todoist.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
@@ -67,7 +76,7 @@ namespace Todoist.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoryID");
 
                     b.ToTable("Goals");
                 });
@@ -76,7 +85,7 @@ namespace Todoist.Migrations
                 {
                     b.HasOne("Todoist.Entities.Category", "Category")
                         .WithMany("Goals")
-                        .HasForeignKey("CategoryId")
+                        .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

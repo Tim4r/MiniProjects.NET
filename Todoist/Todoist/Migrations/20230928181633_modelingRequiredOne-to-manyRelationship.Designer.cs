@@ -12,8 +12,8 @@ using Todoist.DataAccess;
 namespace Todoist.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20230918153807_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230928181633_modelingRequiredOne-to-manyRelationship")]
+    partial class modelingRequiredOnetomanyRelationship
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,17 +56,38 @@ namespace Todoist.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Goals");
+                });
+
+            modelBuilder.Entity("Todoist.Entities.Goal", b =>
+                {
+                    b.HasOne("Todoist.Entities.Category", "Category")
+                        .WithMany("Goals")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Todoist.Entities.Category", b =>
+                {
+                    b.Navigation("Goals");
                 });
 #pragma warning restore 612, 618
         }

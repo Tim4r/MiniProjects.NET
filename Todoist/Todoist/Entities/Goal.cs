@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Todoist.Entities
+﻿namespace Todoist.Entities
 {
     public class Goal
     {
         public int Id { get; set; }
-        public string? Title { get; set; }
-        public string? Description { get; set; }
-        public DateTime Created { get; set; }
-        public string? Status { get; set; }
-        public int CategoryID { get; set; }
+        public required string Title { get; set; }
+        public required string Description { get; set; }
+        public required DateTime Created { get; init; }
+        public required string Status { get; set; }
+
+        public required int CategoryID { get; set; }
+        public Category Category { get; set; } = null!; //Navigation property
+
+        public override string? ToString()
+        {
+            return $" Title - {Title}, Description - {Description}, Date of creation - {Created}, Status - {Status};";
+        }
     }
 }

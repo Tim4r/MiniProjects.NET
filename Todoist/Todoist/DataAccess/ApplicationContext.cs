@@ -15,7 +15,7 @@ namespace Todoist.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.DESKTOP-FQLO9UO\SQLEXPRESS;Database=SchoolDB;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=.;Database=TodoistDB;Trusted_Connection=true;TrustServerCertificate=True;");
         }
     }
 }
