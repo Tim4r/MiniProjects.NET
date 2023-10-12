@@ -1,9 +1,4 @@
-﻿using Azure.Core;
-using System.Linq.Expressions;
-using System.Reflection.PortableExecutable;
-using Todoist.Controllers;
-using Todoist.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+﻿using Todoist.Entities;
 
 namespace Todoist.Views
 {
@@ -12,49 +7,84 @@ namespace Todoist.Views
         /// Common
         public const string StartMenu = "\tMenu\n 1. Create a task\n 2. View task list\n 3. Find the task\n 4. Change the task\n 5. Delete the task\n 6. Exit\n";
         public const string SuggMakeStartMenuItemSelectable = " Make a selection by entering a number...\n";
-        public const string SuggMakeYesNoMenuSelectable = " 1. Yes\n 2. No\n";
+        private const string SuggMakeYesNoMenuSelectable = " 1. Yes\n 2. No\n";
 
         /// For Create task
-        public const string SuggSelectCategoryCreateTask = " Select the category to which you task will belong:";
-        public const string SuggNewTitleEntry = " Enter the TITLE of your task:\n";
-        public const string SuggNewDescriptionEntry = " Enter the DESCRIPTION of your task:\n";
-        public const string SuggNewCategoryEntry = " Enter the CATEGORY of your task:\n";
-        public const string SuggSelectStatusCreateTask = "  Select the status of the task to which you task will belong:\n";
+        private const string SuggEnterNewTitle = " Enter the TITLE of your task:\n";
+        private const string SuggEnterNewDescription = " Enter the DESCRIPTION of your task:\n";
 
         /// For Search task
-        public const string SuggWordSearchEntry = " Enter a word to search by title or description:";
+        private const string SuggEnterWordForSearch = " Enter a word to search by TITLE or DESCRIPTION:";
 
         /// For Update task
-        public const string SuggMenuItemEntryUpdateEntireTask = " Entering a number of task for update all information about task:";
+        private const string SuggSelectGoalForUpdate = " Select a number of task to update its information:";
         public const string TitleQuestionForUpdate = " Do you want to update TITLE of chosen task?";
         public const string DescriptionQuestionForUpdate = " Do you want to update DESCRIPTION of chosen task?";
         public const string CategoryQuestionForUpadate = " Do you want to update CATEGORY of chosen task?";
         public const string StatusQuestionForUpdate = " Do you want to update STATUS of chosen task?\n";
-        public const string SuggSelectCategoryUpdateTask = " Select the CATEGORY for update your task:\n";
-        public const string SuggSelectStatusUpdateTask = " Select the STASTUS for update your task:\n";
+        private const string SuggSelectCategoryOfGoal = " Select the CATEGORY to which you task will belong:";
+        private const string SuggSelectStatusOfGoal = " Select the STATUS to which you task will belong:\n";
 
         /// Delete
         public const string SuggMenuItemEntryDeleteEntireTask = " Entering a number of task for delete all information about task:\n";
-        public const string ConfirmationForDeletion = " Are you sure you want to delete the selected item?\n";
+        private const string ConfirmationForDeletion = " Are you sure you want to delete the selected item?\n";
+
+
+        /// EnterFromFind
+        internal static void OutputSuggEnterWordForSearch()
+        {
+            Console.WriteLine(SuggEnterWordForSearch);
+        }
+
+        /// EnterOfNew
+        internal static void OutputSuggEnterNewTitle()
+        {
+            Console.WriteLine(SuggEnterNewTitle);
+        }
+        internal static void OutputSuggEnterNewDescription()
+        {
+            Console.WriteLine(SuggEnterNewDescription);
+        }
+
+        /// SelectFromExist
+        internal static void OutputSuggSelectCategoryOfGoal()
+        {
+            Console.WriteLine(SuggSelectCategoryOfGoal);
+        }
+        internal static void OutputSuggSelectStatusOfGoal()
+        {
+            Console.WriteLine(SuggSelectStatusOfGoal);
+        }
+        internal static void OutputSuggSelectGoalForUpdate()
+        {
+            Console.WriteLine(SuggSelectGoalForUpdate + "\n");
+        }
+
+        internal static void ConfirmationForDeletetion()
+        {
+            Console.WriteLine(ConfirmationForDeletion + SuggMakeYesNoMenuSelectable);
+        }
+
+
 
         internal static void OutputARequestToUpdateTheTitle()
         {
-            Console.WriteLine($"{ViewConsole.TitleQuestionForUpdate}\n{ViewConsole.SuggMakeYesNoMenuSelectable}");
+            Console.WriteLine($"{TitleQuestionForUpdate}\n{SuggMakeYesNoMenuSelectable}");
         }
 
         internal static void OutputARequestToUpdateTheDescription()
         {
-            Console.WriteLine($"{ViewConsole.DescriptionQuestionForUpdate}\n{ViewConsole.SuggMakeYesNoMenuSelectable}");
+            Console.WriteLine($"{DescriptionQuestionForUpdate}\n{SuggMakeYesNoMenuSelectable}");
         }
 
         internal static void OutputARequestToUpdateTheCategory()
         {
-            Console.WriteLine($"{ViewConsole.CategoryQuestionForUpadate}\n{ViewConsole.SuggMakeYesNoMenuSelectable}");
+            Console.WriteLine($"{CategoryQuestionForUpadate} \n {SuggMakeYesNoMenuSelectable}");
         }
 
         internal static void OutputARequestToUpdateTheStatus()
         {
-            Console.WriteLine($"{ViewConsole.StatusQuestionForUpdate}\n{ViewConsole.SuggMakeYesNoMenuSelectable}");
+            Console.WriteLine($"{StatusQuestionForUpdate} \n {SuggMakeYesNoMenuSelectable}");
         }
 
         internal static string? GettingNewProperty()
@@ -69,10 +99,21 @@ namespace Todoist.Views
             return "-";
         }
 
-        internal static void OutputingData(List<Goal> allTasks)
+        internal static void OutputGoal(Goal goal)
         {
-            for (int i = 0; i < allTasks.Count; i++)
-                Console.WriteLine($" {i + 1}.{allTasks[i]}\n");
+            Console.WriteLine(goal);
+        }
+
+        internal static void OutputGoals(List<Goal> tasks)
+        {
+            for (int i = 0; i < tasks.Count; i++)
+                Console.WriteLine($" {i + 1}.{tasks[i]}\n");
+        }
+
+        internal static void OutputCategories(List<Category> categories)
+        {
+            for (int i = 0; i < categories.Count; i++)
+                Console.WriteLine($" {i + 1}. {categories[i].NameCategory}");
         }
 
         internal static void OutOfTheFoundElement(string searchedElement)

@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Todoist.Controllers;
+﻿using Todoist.Controllers;
 
 namespace Todoist
 {
