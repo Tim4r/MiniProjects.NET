@@ -3,31 +3,27 @@ using Todoist.Model;
 using Todoist.Entities;
 using Todoist.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Todoist.Enum;
+using Todoist.Consts;
 
 namespace Todoist.Controllers
 {
     internal static class ControllerConsole
     {
-        internal const int NumberOfStartMenuItems = 6;
-        internal const int NumberOfYesOrNoItems = 2;
-        internal const int NumberOfElementsForUpdate = 4;
-
         internal static string GetNewTitleOfGoal()
         {
             string choice;
             string newTitle;
 
-            ViewConsole.OutputARequestToUpdateTheTitle();
-            choice = ChekingValidation(Console.ReadLine(), NumberOfYesOrNoItems);
+            ViewConsole.Display($"{AppConsts.Question.ForUpdate.Title}\n{AppConsts.Common.Menu.YesNoSelectable}");
+            choice = ChekingValidation(Console.ReadLine(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {
-                ViewConsole.OutputSuggEnterNewTitle();
-                newTitle = ViewConsole.GettingNewProperty();
+                ViewConsole.Display(AppConsts.Suggestion.Enter.NewTitle);
+                newTitle = ViewConsole.GetInput();
                 return newTitle;
             }   
             else
-            return ViewConsole.GettingEmptyProperty();
+            return ViewConsole.GetEmpty();
         }
 
         internal static string GetNewDescriptionOfGoal()
@@ -35,36 +31,35 @@ namespace Todoist.Controllers
             string choice;
             string newDescription;
 
-            ViewConsole.OutputARequestToUpdateTheDescription();
-            choice = ChekingValidation(Console.ReadLine(), NumberOfYesOrNoItems);
+            ViewConsole.Display($"{AppConsts.Question.ForUpdate.Description}\n{AppConsts.Common.Menu.YesNoSelectable}");
+            choice = ChekingValidation(Console.ReadLine(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {
-                ViewConsole.OutputSuggEnterNewDescription();
-                newDescription = ViewConsole.GettingNewProperty();
+                ViewConsole.Display(AppConsts.Suggestion.Enter.NewDescription);
+                newDescription = ViewConsole.GetInput();
                 return newDescription;
             }
             else
-                return ViewConsole.GettingEmptyProperty();
+                return ViewConsole.GetEmpty();
         }
 
         internal static string GetNewCategoryOfGoal()
         {
             List<Category> categories = new List<Category>();
             string choice;
-
-            ViewConsole.OutputARequestToUpdateTheCategory();
-            choice = ChekingValidation(Console.ReadLine(), NumberOfYesOrNoItems);
+            ViewConsole.Display($"{AppConsts.Question.ForUpdate.Category} \n {AppConsts.Common.Menu.YesNoSelectable}");
+            choice = ChekingValidation(Console.ReadLine(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {
-                ViewConsole.OutputSuggSelectStatusOfGoal();
-                categories = GetCategories();
+                ViewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+                categories = ModelConsole.GetCategories();
                 ViewConsole.OutputCategories(categories);
                 choice = ChekingValidation(Console.ReadLine(), categories.Count);
                 int newCategoryInt = Convert.ToInt32(choice);
                 return categories[newCategoryInt--].NameCategory;
             }
             else
-                return ViewConsole.GettingEmptyProperty();
+                return ViewConsole.GetEmpty();
         }
 
         internal static string GetNewStatusOfGoal()
@@ -72,18 +67,18 @@ namespace Todoist.Controllers
             string[] statuses;
             string choice;
 
-            ViewConsole.OutputARequestToUpdateTheStatus();
-            choice = ChekingValidation(Console.ReadLine(), NumberOfYesOrNoItems);
+            ViewConsole.Display($"{AppConsts.Question.ForUpdate.Status} \n {AppConsts.Common.Menu.YesNoSelectable}");
+            choice = ChekingValidation(Console.ReadLine(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {
-                ViewConsole.OutputSuggSelectStatusOfGoal();
-                statuses = GetStatuses();
-                OutputOfAvaliableStatuses(statuses);
+                ViewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+                statuses = ModelConsole.GetStatuses();
+                ViewConsole.OutputOfAvaliableStatuses(statuses);
                 choice = ChekingValidation(Console.ReadLine(), statuses.Length);
                 return ModelConsole.SearchEnumByIndex(choice);
             }
             else
-                return ViewConsole.GettingEmptyProperty();
+                return ViewConsole.GetEmpty();
         }
 
         internal static void ChekingFinalAnswerForDelete(Goal searchElementGoal, string choice)
@@ -94,53 +89,31 @@ namespace Todoist.Controllers
         }
 
         ///Вынести от сюда
-        internal static void OutputOfAvaliableStatuses(string[] statuses)
-        {
-            for (int i = 0; i < statuses.Length; i++)
-                Console.WriteLine($" {i + 1}. {statuses[i]}");
-        }
-        internal static List<Goal> GetGoals()
-        {
-            using (var context = new ApplicationContext())
-            {
-                return context.Goals.ToList();
-            }
-        }
-        internal static List<Category> GetCategories()
-        {
-            using (var context = new ApplicationContext())
-            {
-                return context.Categories.ToList();
-            }
-        }
-        internal static string[] GetStatuses()
-        {
-            return System.Enum.GetNames(typeof(StatusType));
-        }
+        
         ////////////////////////////////////
 
 
         internal static void AddingGoal()
         {
-            List<Category> categories = GetCategories();
-            string[] statuses = GetStatuses();
+            List<Category> categories = ModelConsole.GetCategories();
+            string[] statuses = ModelConsole.GetStatuses();
             int categoryId;
             string choice;
 
-            ViewConsole.OutputSuggEnterNewTitle();                             //// Дописать ограничение на количество символов
+            ViewConsole.Display(AppConsts.Suggestion.Enter.NewTitle);                          //// Дописать ограничение на количество символов
             var title = Console.ReadLine();
 
-            ViewConsole.OutputSuggEnterNewDescription();                       //// Дописать ограничение на количество символов
+            ViewConsole.Display(AppConsts.Suggestion.Enter.NewDescription);                    //// Дописать ограничение на количество символов
             var description = Console.ReadLine();
 
-            ViewConsole.OutputSuggSelectStatusOfGoal();
-            categories = GetCategories();
+            ViewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+            categories = ModelConsole.GetCategories();
             ViewConsole.OutputCategories(categories);
             choice = ChekingValidation(Console.ReadLine(), categories.Count);
             categoryId = categories[Convert.ToInt32(choice) - 1].Id;
 
-            ViewConsole.OutputSuggSelectStatusOfGoal();
-            OutputOfAvaliableStatuses(statuses);
+            ViewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+            ViewConsole.OutputOfAvaliableStatuses(statuses);
             choice = ChekingValidation(Console.ReadLine(), statuses.Length);
             string status = ModelConsole.SearchEnumByIndex(choice);
 
@@ -195,9 +168,9 @@ namespace Todoist.Controllers
 
         internal static void FindingGoal()
         {
-            List<Goal> goals = GetGoals();
+            List<Goal> goals = ModelConsole.GetGoals();
 
-            ViewConsole.OutputSuggEnterWordForSearch();
+            ViewConsole.Display(AppConsts.Suggestion.Enter.WordForSearch);
             string searchWord = Console.ReadLine();                                                 ///////////////Добавить ограничение на ввод символов
             var results = ModelConsole.SearchElementsByTitleAndDescription(goals, searchWord);
             ViewConsole.OutputGoals(results);
@@ -205,18 +178,18 @@ namespace Todoist.Controllers
 
         internal static void UpdatingASelectedGoal()
         {
-            List<Goal> goals = GetGoals();
+            List<Goal> goals = ModelConsole.GetGoals();
             List<string> updatedProperties = new List<string>();
             string newElement = "";
             string choice;
 
-            ViewConsole.OutputSuggSelectGoalForUpdate();
+            ViewConsole.Display(AppConsts.Suggestion.Select.Goal + "\n");
             ViewConsole.OutputGoals(goals);
             choice = ChekingValidation(Console.ReadLine(), goals.Count);
             var goalForUpdate = ModelConsole.SearchElementByIndex(goals, Convert.ToInt32(choice));
-            ViewConsole.OutputGoal(goalForUpdate);
+            ViewConsole.Display(goalForUpdate);
 
-            for (int counter = 0; counter < NumberOfElementsForUpdate; counter++)
+            for (int counter = 0; counter < AppConsts.Common.NumberOf.ElementsForUpdate; counter++)
             {
                 switch (counter)
                 {
@@ -240,21 +213,19 @@ namespace Todoist.Controllers
 
         internal static void DeletingASelectedGoal()
         {
-            List <Goal> goals = GetGoals();
+            List <Goal> goals = ModelConsole.GetGoals();
             string choice;
 
-            ViewConsole.OutPutTheSuggMenuItemEntryDeleteEntireTask();
+            ViewConsole.Display(AppConsts.Suggestion.Select.Goal);
             ViewConsole.OutputGoals(goals);
 
             choice = ChekingValidation(Console.ReadLine(), goals.Count);
 
             var searchedElementGoal = ModelConsole.SearchElementByIndex(goals, Convert.ToInt32(choice));
-            string searchedElementString = Convert.ToString(searchedElementGoal);
+            ViewConsole.Display(searchedElementGoal);
 
-            ViewConsole.OutOfTheFoundElement(searchedElementString);
-
-            ViewConsole.ConfirmationForDeletetion();
-            choice = ChekingValidation(Console.ReadLine(), NumberOfYesOrNoItems);
+            ViewConsole.Display(AppConsts.Question.ForDelete.Confirmation + AppConsts.Common.Menu.YesNoSelectable);
+            choice = ChekingValidation(Console.ReadLine(), AppConsts.Common.NumberOf.YesOrNoItems);
             ChekingFinalAnswerForDelete(searchedElementGoal, choice);
         }
 
@@ -298,11 +269,11 @@ namespace Todoist.Controllers
                 Environment.Exit(0);
         }
 
-        internal static void StartedApplication()
+        internal static void StartApplication()
         {
             string choice;
-            ViewConsole.OutputtingTheStartingQuestionAndAcceptingTheAnswer();
-            choice = ChekingValidation(Console.ReadLine(), NumberOfStartMenuItems);
+            ViewConsole.Display(AppConsts.Common.Menu.Start + AppConsts.Common.Menu.StartItemSelectable);
+            choice = ChekingValidation(Console.ReadLine(), AppConsts.Common.NumberOf.StartItems);
             CheckingAndImplementingTheStartMenuItem(choice);
         }
     }
