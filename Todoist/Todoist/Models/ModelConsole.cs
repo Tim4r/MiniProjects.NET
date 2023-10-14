@@ -58,13 +58,13 @@ namespace Todoist.Model
 
         internal static void Update(Goal goalForUpdate, List<string> newProperties)
         {
-            if (newProperties[0] != "-")
+            if (newProperties[0] != null)
                 goalForUpdate.Title = newProperties[0];
-            if (newProperties[1] != "-")
+            if (newProperties[1] != null)
                 goalForUpdate.Description = newProperties[1];
-            if (newProperties[2] != "-")
+            if (newProperties[2] != null)
                goalForUpdate.CategoryID = Convert.ToInt32(newProperties[2]);
-            if (newProperties[3] != "-")
+            if (newProperties[3] != null)
                 goalForUpdate.Status = newProperties[3];
             using (var context = new ApplicationContext())
                 context.SaveChanges();
@@ -77,6 +77,27 @@ namespace Todoist.Model
                 context.Goals.Remove(searchElementGoal);
                 context.SaveChanges();
             }
+        }
+
+        internal static List<Goal> GetGoals()
+        {
+            using (var context = new ApplicationContext())
+            {
+                return context.Goals.ToList();
+            }
+        }
+
+        internal static List<Category> GetCategories()
+        {
+            using (var context = new ApplicationContext())
+            {
+                return context.Categories.ToList();
+            }
+        }
+
+        internal static string[] GetStatuses()
+        {
+            return System.Enum.GetNames(typeof(StatusType));
         }
     }
 }
