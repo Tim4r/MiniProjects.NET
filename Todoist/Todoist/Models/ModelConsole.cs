@@ -1,13 +1,30 @@
-﻿using Todoist.Controllers;
-using Todoist.DataAccess;
+﻿using Todoist.DataAccess;
 using Todoist.Entities;
 using Todoist.Enum;
 
 namespace Todoist.Model
 {
-    internal static class ModelConsole
+    internal class ModelConsole
     {
-        internal static List<Goal> SearchElementsByTitleAndDescription(List<Goal> allTasks, string searchWord) 
+        internal List<Goal> GetGoals()
+        {
+            using (var context = new ApplicationContext())
+            {
+                return context.Goals.ToList();
+            }
+        }
+
+        internal List<Category> GetCategories()
+        {
+            using (var context = new ApplicationContext())
+            {
+                return context.Categories.ToList();
+            }
+        }
+
+        internal Func<string[]> GetStatuses = () => System.Enum.GetNames(typeof(StatusType));
+
+        internal List<Goal> SearchElementsByTitleAndDescription(List<Goal> allTasks, string searchWord) ////В одну строчку
         {
             List<Goal> results = new List<Goal>();
 
@@ -29,16 +46,10 @@ namespace Todoist.Model
                 }
             }
 
-            if (results.Count == 0)
-            {
-                Console.WriteLine("\n Nothing was found for your request! Please, repeat again...\n");
-                ControllerConsole.FindingGoal();
-            }
-
             return results;
         }
 
-        internal static Goal? SearchElementByIndex(List<Goal> allTasks, int menuItem)
+        internal Goal? SearchElementByIndex(List<Goal> allTasks, int menuItem)
         { 
             int count = allTasks.Count;
             for (int i = 0; i < count; i++)
@@ -49,14 +60,32 @@ namespace Todoist.Model
             return null;
         }
 
-        internal static string SearchEnumByIndex(string index)
+        internal string SearchEnumByIndex(string index)
         {
             int intIndex = Convert.ToInt32(index)-1;
             var elementOfEnum = (StatusType)intIndex;
             return Convert.ToString(elementOfEnum);
         }
 
-        internal static void Update(Goal goalForUpdate, List<string> newProperties)
+        internal void Add(string title, string description, string status, int categoryId)
+        {
+            using (var context = new ApplicationContext())
+            {
+                var newGoal = new Goal()
+                {
+                    Title = title,
+                    Description = description,
+                    Created = DateTime.UtcNow,
+                    Status = status,
+                    CategoryID = categoryId,
+                };
+
+                context.Goals.Add(newGoal);
+                context.SaveChanges();
+            }
+        }
+
+        internal void Update(Goal goalForUpdate, List<string> newProperties)
         {
             if (newProperties[0] != null)
                 goalForUpdate.Title = newProperties[0];
@@ -70,34 +99,13 @@ namespace Todoist.Model
                 context.SaveChanges();
         }
 
-        internal static void Delete(Goal searchElementGoal)
+        internal void Delete(Goal searchElementGoal)
         {
             using (var context = new ApplicationContext())
             {
                 context.Goals.Remove(searchElementGoal);
                 context.SaveChanges();
             }
-        }
-
-        internal static List<Goal> GetGoals()
-        {
-            using (var context = new ApplicationContext())
-            {
-                return context.Goals.ToList();
-            }
-        }
-
-        internal static List<Category> GetCategories()
-        {
-            using (var context = new ApplicationContext())
-            {
-                return context.Categories.ToList();
-            }
-        }
-
-        internal static string[] GetStatuses()
-        {
-            return System.Enum.GetNames(typeof(StatusType));
         }
     }
 }
