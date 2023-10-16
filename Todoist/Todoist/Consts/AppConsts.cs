@@ -26,7 +26,7 @@
                 public const string NewTitle = " Enter the TITLE of your task (maximum 30):\n";
                 public const string NewDescription = " Enter the DESCRIPTION of your task:\n";
                 public const string WordForSearch = " Enter a word to search by TITLE or DESCRIPTION:";
-                public const string Repeat = "\n Nothing was found for your request! Please, repeat again...\n";
+                public const string NotFound = "\n Nothing was found for your request...\n";
                 public const string ValidValue = "Please, enter a valid value!:)\n";
             }
             internal  class Select

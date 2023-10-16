@@ -1,13 +1,8 @@
 ﻿using Todoist.Views;
 using Todoist.Model;
 using Todoist.Entities;
-using Todoist.DataAccess;
-using Microsoft.EntityFrameworkCore;
 using Todoist.Consts;
 
-///// Linq
-///// Testing
-///// Выгрузка в модельку категории и голсы
 namespace Todoist.Controllers
 {
     internal class ControllerConsole
@@ -20,88 +15,11 @@ namespace Todoist.Controllers
             _modelConsole = modelConsole;
             _viewConsole = viewConsole;
         }
-
-        internal string GetNewTitleOfGoal()
-        {
-            string choice;
-            string newTitle;
-
-            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Title}\n{AppConsts.Common.Menu.YesNoSelectable}");
-            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
-            if (choice == "1")
-            {
-                _viewConsole.Display(AppConsts.Suggestion.Enter.NewTitle);
-                newTitle = _viewConsole.GetInput();
-                return newTitle;
-            }   
-            else
-            return _viewConsole.GetEmpty();
-        }
-
-        internal string GetNewDescriptionOfGoal()
-        {
-            string choice;
-            string newDescription;
-
-            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Description}\n{AppConsts.Common.Menu.YesNoSelectable}");
-            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
-            if (choice == "1")
-            {
-                _viewConsole.Display(AppConsts.Suggestion.Enter.NewDescription);
-                newDescription = _viewConsole.GetInput();
-                return newDescription;
-            }
-            else
-                return _viewConsole.GetEmpty();
-        }
-
-        internal string GetNewCategoryOfGoal()
-        {
-            List<Category> categories = new List<Category>();
-            string choice;
-            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Category} \n {AppConsts.Common.Menu.YesNoSelectable}");
-            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
-            if (choice == "1")
-            {
-                _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
-                categories = _modelConsole.GetCategories();
-                _viewConsole.OutputCategories(categories);
-                choice = CheckValidation(_viewConsole.GetInput(), categories.Count);
-                int newCategoryInt = Convert.ToInt32(choice);
-                return categories[newCategoryInt--].NameCategory;
-            }
-            else
-                return _viewConsole.GetEmpty();
-        }
-
-        internal string GetNewStatusOfGoal()
-        {
-            string[] statuses;
-            string choice;
-
-            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Status} \n {AppConsts.Common.Menu.YesNoSelectable}");
-            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
-            if (choice == "1")
-            {
-                _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
-                statuses = _modelConsole.GetStatuses();
-                _viewConsole.OutputOfAvaliableStatuses(statuses);
-                choice = CheckValidation(_viewConsole.GetInput(), statuses.Length);
-                return _modelConsole.SearchEnumByIndex(choice);
-            }
-            else
-                return _viewConsole.GetEmpty();
-        }
-
-        internal  void CheckFinalAnswerForDelete(Goal searchElementGoal, string choice)
-        {
-            if (choice == "1")
-                _modelConsole.Delete(searchElementGoal);
-        }
+        
 
         internal void AddGoal()
         {
-            List<Category> categories = _modelConsole.GetCategories();
+            List<Category> categories = _modelConsole.Categories;
             string[] statuses = _modelConsole.GetStatuses();
             int categoryId;
             string choiceCategory;
@@ -143,40 +61,12 @@ namespace Todoist.Controllers
 
         internal void ViewGoalList()
         {
-            List<Category> categories;
-
-            using (var context = new ApplicationContext())
-            {
-                categories = context.Categories.Include(category => category.Goals).ToList();
-            }
-            _viewConsole.OutputCategories(categories);
-
-            //var goals = context.Goals.ToList();
-            //var categories = context.Categories.ToList();
-
-            //foreach (Category category in categories)
-            //{
-            //    category.Goals = new List<Goal>();
-            //    foreach (Goal goal in goals)
-            //    {
-            //        if (goal.CategoryID == category.Id)
-            //        {
-            //            category.Goals.Add(goal);
-            //        }
-            //    }
-            //}
-
-            //foreach (Category category in categories)
-            //    foreach (Goal goal in category.Goals)
-            //        Console.WriteLine("NameCategory: " + category.NameCategory + " " + goal);
-
-            //foreach(Goal goal in goals)
-            //    Console.WriteLine(goal);
+            _viewConsole.OutputCategories(_modelConsole.Categories);
         }
 
         internal void FindGoal()
         {
-            List<Goal> goals = _modelConsole.GetGoals();
+            List<Goal> results;
             string searchWord;
             bool isValid;
 
@@ -188,27 +78,24 @@ namespace Todoist.Controllers
                 if (!isValid) _viewConsole.Display(AppConsts.Suggestion.Enter.ValidValue);
             }
             while (!isValid);
-                                              
-            var results = _modelConsole.SearchElementsByTitleAndDescription(goals, searchWord);
+
+            results = _modelConsole.SearchElementsByTitleAndDescription(searchWord);
             if (results.Count == 0)
-            {
-                _viewConsole.Display(AppConsts.Suggestion.Enter.Repeat);
-                FindGoal();
-            }
-            else 
+                _viewConsole.Display(AppConsts.Suggestion.Enter.NotFound);
+            else
                 _viewConsole.OutputGoals(results);
         }
 
         internal void UpdateGoal()
         {
-            List<Goal> goals = _modelConsole.GetGoals();
+            List<Goal> goals = _modelConsole.Goals;
             List<string> updatedProperties = new List<string>();
             string choice;
 
             _viewConsole.Display(AppConsts.Suggestion.Select.Goal + "\n");
             _viewConsole.OutputGoals(goals);
             choice = CheckValidation(_viewConsole.GetInput(), goals.Count);
-            var goalForUpdate = _modelConsole.SearchElementByIndex(goals, Convert.ToInt32(choice));
+            var goalForUpdate = _modelConsole.SearchElementByIndex(Convert.ToInt32(choice));
             _viewConsole.Display(goalForUpdate);
 
             string titleOfGoal = GetNewTitleOfGoal();
@@ -223,25 +110,99 @@ namespace Todoist.Controllers
             string statusOfGoal = GetNewStatusOfGoal();
             updatedProperties.Add(statusOfGoal);
 
-            _modelConsole.Update(goalForUpdate, updatedProperties);
+            _modelConsole.Update(goalForUpdate, updatedProperties, Convert.ToInt32(choice));
         }
 
         internal void DeleteGoal()
         {
-            List <Goal> goals = _modelConsole.GetGoals();
             string choice;
 
             _viewConsole.Display(AppConsts.Suggestion.Select.Goal);
-            _viewConsole.OutputGoals(goals);
+            _viewConsole.OutputGoals(_modelConsole.Goals);
 
-            choice = CheckValidation(_viewConsole.GetInput(), goals.Count);
+            choice = CheckValidation(_viewConsole.GetInput(), _modelConsole.Goals.Count);
 
-            var searchedElementGoal = _modelConsole.SearchElementByIndex(goals, Convert.ToInt32(choice));
+            var searchedElementGoal = _modelConsole.SearchElementByIndex(Convert.ToInt32(choice));
             _viewConsole.Display(searchedElementGoal);
 
             _viewConsole.Display(AppConsts.Question.ForDelete.Confirmation + AppConsts.Common.Menu.YesNoSelectable);
             choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
-            CheckFinalAnswerForDelete(searchedElementGoal, choice);
+
+            if (choice == "1")
+                _modelConsole.Delete(searchedElementGoal);
+        }
+
+
+        internal string GetNewTitleOfGoal()
+        {
+            string choice;
+            string newTitle;
+
+            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Title}\n{AppConsts.Common.Menu.YesNoSelectable}");
+            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
+            if (choice == "1")
+            {
+                _viewConsole.Display(AppConsts.Suggestion.Enter.NewTitle);
+                newTitle = _viewConsole.GetInput();
+                return newTitle;
+            }
+            else
+                return _viewConsole.GetEmpty();
+        }
+
+        internal string GetNewDescriptionOfGoal()
+        {
+            string choice;
+            string newDescription;
+
+            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Description}\n{AppConsts.Common.Menu.YesNoSelectable}");
+            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
+            if (choice == "1")
+            {
+                _viewConsole.Display(AppConsts.Suggestion.Enter.NewDescription);
+                newDescription = _viewConsole.GetInput();
+                return newDescription;
+            }
+            else
+                return _viewConsole.GetEmpty();
+        }
+
+        internal string GetNewCategoryOfGoal()
+        {
+            List<Category> categories = new List<Category>();
+            string choice;
+            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Category} \n {AppConsts.Common.Menu.YesNoSelectable}");
+            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
+            if (choice == "1")
+            {
+                _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+                categories = _modelConsole.Categories;
+                _viewConsole.OutputCategories(categories);
+                choice = CheckValidation(_viewConsole.GetInput(), categories.Count);
+                int newCategoryInt = Convert.ToInt32(choice);
+                return categories[newCategoryInt--].NameCategory;
+            }
+            else
+                return _viewConsole.GetEmpty();
+        }
+
+        internal string GetNewStatusOfGoal()
+        {
+            string[] statuses;
+            string choice;
+
+            _viewConsole.Display($"{AppConsts.Question.ForUpdate.Status} \n {AppConsts.Common.Menu.YesNoSelectable}");
+            choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
+            if (choice == "1")
+            {
+                _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+                statuses = _modelConsole.GetStatuses();
+                _viewConsole.OutputOfAvaliableStatuses(statuses);
+                choice = CheckValidation(_viewConsole.GetInput(), statuses.Length);
+                return _modelConsole.SearchEnumByIndex(choice);
+            }
+            else
+                return _viewConsole.GetEmpty();
         }
 
 

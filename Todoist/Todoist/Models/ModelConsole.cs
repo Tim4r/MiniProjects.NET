@@ -6,58 +6,28 @@ namespace Todoist.Model
 {
     internal class ModelConsole
     {
-        internal List<Goal> GetGoals()
-        {
-            using (var context = new ApplicationContext())
-            {
-                return context.Goals.ToList();
-            }
-        }
+        internal List<Goal>? Goals { get; private set; }
+        internal List<Category>? Categories { get; private set; }
 
-        internal List<Category> GetCategories()
+        internal void GetGoalsAndCategories()
         {
             using (var context = new ApplicationContext())
             {
-                return context.Categories.ToList();
+                Goals = context.Goals.ToList();
+                Categories = context.Categories.ToList();
             }
         }
 
         internal Func<string[]> GetStatuses = () => System.Enum.GetNames(typeof(StatusType));
 
-        internal List<Goal> SearchElementsByTitleAndDescription(List<Goal> allTasks, string searchWord) ////В одну строчку
+        internal List<Goal> SearchElementsByTitleAndDescription(string searchWord)
         {
-            List<Goal> results = new List<Goal>();
-
-            foreach (var item in allTasks)
-            {
-                string[] undiveidedTitle = item.Title.Split(' ');
-                string[] undividedDescription = item.Description.Split(' ');
-
-                foreach (string oneWordTitle in undiveidedTitle)
-                {
-                    if (oneWordTitle == searchWord)
-                        results.Add(item);
-                }
-
-                foreach (string oneWordDescription in undividedDescription)
-                {
-                    if (oneWordDescription == searchWord)
-                        results.Add(item);
-                }
-            }
-
-            return results;
+            return Goals.FindAll(item => item.Title.Contains(searchWord) || item.Description.Contains(searchWord));
         }
 
-        internal Goal? SearchElementByIndex(List<Goal> allTasks, int menuItem)
-        { 
-            int count = allTasks.Count;
-            for (int i = 0; i < count; i++)
-            {
-                if (i+1 == menuItem)
-                    return allTasks[i];
-            }
-            return null;
+        internal Goal? SearchElementByIndex(int menuItem)
+        {
+            return Goals[--menuItem];
         }
 
         internal string SearchEnumByIndex(string index)
@@ -69,38 +39,44 @@ namespace Todoist.Model
 
         internal void Add(string title, string description, string status, int categoryId)
         {
+            var newGoal = new Goal()
+            {
+                Title = title,
+                Description = description,
+                Created = DateTime.UtcNow,
+                Status = status,
+                CategoryID = categoryId,
+            };
+
+            Goals.Add(newGoal);
             using (var context = new ApplicationContext())
             {
-                var newGoal = new Goal()
-                {
-                    Title = title,
-                    Description = description,
-                    Created = DateTime.UtcNow,
-                    Status = status,
-                    CategoryID = categoryId,
-                };
-
                 context.Goals.Add(newGoal);
                 context.SaveChanges();
             }
         }
 
-        internal void Update(Goal goalForUpdate, List<string> newProperties)
+        internal void Update(Goal goalForUpdate, List<string> newProperties, int menuItem)
         {
+            int indexGoal = --menuItem;
             if (newProperties[0] != null)
                 goalForUpdate.Title = newProperties[0];
             if (newProperties[1] != null)
                 goalForUpdate.Description = newProperties[1];
             if (newProperties[2] != null)
-               goalForUpdate.CategoryID = Convert.ToInt32(newProperties[2]);
+                goalForUpdate.CategoryID = Convert.ToInt32(newProperties[2]);
             if (newProperties[3] != null)
                 goalForUpdate.Status = newProperties[3];
+
+            Goals[indexGoal] = goalForUpdate;
+                
             using (var context = new ApplicationContext())
                 context.SaveChanges();
         }
 
         internal void Delete(Goal searchElementGoal)
         {
+            Goals.Remove(searchElementGoal);
             using (var context = new ApplicationContext())
             {
                 context.Goals.Remove(searchElementGoal);
