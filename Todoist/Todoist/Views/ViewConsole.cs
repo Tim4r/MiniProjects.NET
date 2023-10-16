@@ -22,7 +22,7 @@ namespace Todoist.Views
         internal void OutputCategories(List<Category> categories)
         {
             for (int i = 0; i < categories.Count; i++)
-                Console.WriteLine($" {i + 1}. {categories[i].NameCategory}");
+                Console.WriteLine($" {i + 1}. {categories[i]}");
         }
 
         internal void OutputOfAvaliableStatuses(string[] statuses)
