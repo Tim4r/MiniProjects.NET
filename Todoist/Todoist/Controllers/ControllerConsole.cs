@@ -16,7 +16,6 @@ namespace Todoist.Controllers
             _viewConsole = viewConsole;
         }
         
-
         internal void AddGoal()
         {
             List<Category> categories = _modelConsole.Categories;
@@ -47,7 +46,7 @@ namespace Todoist.Controllers
             while (!isValid);
 
             _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
-            _viewConsole.OutputCategories(categories);
+            _viewConsole.OutputCategoryNames(categories);
             choiceCategory = CheckValidation(_viewConsole.GetInput(), categories.Count);
             categoryId = categories[Convert.ToInt32(choiceCategory) - 1].Id;
 
@@ -61,7 +60,8 @@ namespace Todoist.Controllers
 
         internal void ViewGoalList()
         {
-            _viewConsole.OutputCategories(_modelConsole.Categories);
+            List<Category> categories = _modelConsole.Categories;
+            _viewConsole.OutputCategories(categories);
         }
 
         internal void FindGoal()
@@ -175,9 +175,9 @@ namespace Todoist.Controllers
             choice = CheckValidation(_viewConsole.GetInput(), AppConsts.Common.NumberOf.YesOrNoItems);
             if (choice == "1")
             {
-                _viewConsole.Display(AppConsts.Suggestion.Select.StatusOfGoal);
+                _viewConsole.Display(AppConsts.Suggestion.Select.CategoryOfGoal);
                 categories = _modelConsole.Categories;
-                _viewConsole.OutputCategories(categories);
+                _viewConsole.OutputCategoryNames(categories);
                 choice = CheckValidation(_viewConsole.GetInput(), categories.Count);
                 int newCategoryInt = Convert.ToInt32(choice);
                 return categories[newCategoryInt--].NameCategory;

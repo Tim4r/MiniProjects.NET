@@ -39,6 +39,7 @@ namespace Todoist.Model
 
         internal void Add(string title, string description, string status, int categoryId)
         {
+            var category = Categories.Find(x => x.Id == categoryId);
             var newGoal = new Goal()
             {
                 Title = title,
@@ -48,12 +49,14 @@ namespace Todoist.Model
                 CategoryID = categoryId,
             };
 
-            Goals.Add(newGoal);
             using (var context = new ApplicationContext())
             {
                 context.Goals.Add(newGoal);
                 context.SaveChanges();
             }
+
+            newGoal.Category = category;
+            Goals.Add(newGoal);
         }
 
         internal void Update(Goal goalForUpdate, List<string> newProperties, int menuItem)

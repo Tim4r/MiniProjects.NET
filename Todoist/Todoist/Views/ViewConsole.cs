@@ -19,6 +19,12 @@ namespace Todoist.Views
                 Console.WriteLine($" {i + 1}.{tasks[i]}\n");
         }
 
+        internal void OutputCategoryNames(List<Category> categories)
+        {
+            for (int i = 0; i < categories.Count; i++)
+                Console.WriteLine($" {i + 1}. {categories[i].NameCategory}");
+        }
+
         internal void OutputCategories(List<Category> categories)
         {
             for (int i = 0; i < categories.Count; i++)
