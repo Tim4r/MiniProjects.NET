@@ -11,6 +11,11 @@ namespace VideoGameDependencyExample
             Console.WriteLine();
 
             //HeroThatCanUseAnyWeapon hero2 = new HeroThatCanUseAnyWeapon(new Sword { SwordName = "Brisinger" }) { Name = "Eregon" };    --------- with using constructor
+
+            //HeroThatCanUseAnyWeapon hero2 = new HeroThatCanUseAnyWeapon() { Name = "Joker" };                                          --------- with using method
+            //hero3.Attack(new Sword { SwordName = "Dominik" });
+            //Console.WriteLine();
+
             HeroThatCanUseAnyWeapon hero2 = new HeroThatCanUseAnyWeapon() { Name = "Eregon", MyWeapon = new Sword { SwordName = "Brisinger" } };
             hero2.Attack();
             Console.WriteLine();

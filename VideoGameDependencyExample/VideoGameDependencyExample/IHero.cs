@@ -8,6 +8,7 @@ namespace VideoGameDependencyExample
 {
     internal interface IHero
     {
+        //void Attack(IWeapon weapon); --------- with using method
         void Attack();
     }
 }
