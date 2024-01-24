@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsynchronyExample", "AsynchronyExample\AsynchronyExample.csproj", "{9EBCE380-41B5-43AB-BEA1-3F0B18BB2980}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsynchronyExample", "AsynchronyExample\AsynchronyExample.csproj", "{9EBCE380-41B5-43AB-BEA1-3F0B18BB2980}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialTradingPlatform", "FinancialTradingPlatform\FinancialTradingPlatform.csproj", "{772FB5E1-9024-4172-AFE1-5E2118521963}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9EBCE380-41B5-43AB-BEA1-3F0B18BB2980}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EBCE380-41B5-43AB-BEA1-3F0B18BB2980}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EBCE380-41B5-43AB-BEA1-3F0B18BB2980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{772FB5E1-9024-4172-AFE1-5E2118521963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{772FB5E1-9024-4172-AFE1-5E2118521963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{772FB5E1-9024-4172-AFE1-5E2118521963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{772FB5E1-9024-4172-AFE1-5E2118521963}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
