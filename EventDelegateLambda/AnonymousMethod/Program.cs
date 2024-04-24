@@ -12,6 +12,10 @@ internal class Program
 
     delegate int OperationPlus(int x, int y);
 
+    delegate int OperationPlusZ(int x, int y);
+
+    static int z = 8;
+
     static void Main(string[] args)
     {
         // Without parameters
@@ -29,8 +33,8 @@ internal class Program
         Lololoshka("AnonymousAndParameters");
 
         // With string parameter, but shorter
-        MessageHandler handler = Console.WriteLine;
-        handler("AnonymousAndParametersShorter");
+        MessageHandler Handler = Console.WriteLine;
+        Handler("AnonymousAndParametersShorter");
 
         // Passing an anonymous method as a argument
         ShowMessage(Convert.ToInt32(Console.ReadLine()), delegate (int num)
@@ -45,7 +49,15 @@ internal class Program
             return x + y;
         };
         int result = Plus(4, 5);
-        Console.WriteLine(result);
+        Console.WriteLine(result);         // 9
+
+        // Call of an anonymous method that returns the value 'int' using an external variable
+        OperationPlusZ PlusZ = delegate (int x, int y)
+        {
+            return x + y + z;
+        };
+        int result2 = PlusZ(4, 5);         
+        Console.WriteLine(result2);        // 17
     }
 
     static void ShowMessage(int number, MessageHandler2 handler2)
