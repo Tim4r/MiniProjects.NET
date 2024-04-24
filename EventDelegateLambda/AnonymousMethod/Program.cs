@@ -2,13 +2,15 @@
 
 internal class Program
 {
-    public delegate void Kinsasa();
+    delegate void Kinsasa();
 
-    public delegate void AbraCadabra(string abra);
+    delegate void AbraCadabra(string abra);
 
     delegate void MessageHandler(string message);
 
     delegate void MessageHandler2(int num);
+
+    delegate int OperationPlus(int x, int y);
 
     static void Main(string[] args)
     {
@@ -36,6 +38,14 @@ internal class Program
             Console.WriteLine(num*2);
             Console.WriteLine("You are a hero!");
         });
+
+        // Call of an anonymous method that returns the value 'int'
+        OperationPlus Plus = delegate (int x, int y)
+        {
+            return x + y;
+        };
+        int result = Plus(4, 5);
+        Console.WriteLine(result);
     }
 
     static void ShowMessage(int number, MessageHandler2 handler2)
