@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnonymousMethod", "Anonymou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delegates", "Delegate\Delegates.csproj", "{CB3E7DC7-F2AB-46C1-AFB7-049F1FB6A7F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockOnliner", "StockOnliner\StockOnliner.csproj", "{8A79A580-EFB7-4AF3-8D29-1A47EC74E47A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockOnliner", "StockOnliner\StockOnliner.csproj", "{8A79A580-EFB7-4AF3-8D29-1A47EC74E47A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delegates2", "Delegates2\Delegates2.csproj", "{DDF236E0-8C1B-4A9A-B414-4C4200766573}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{8A79A580-EFB7-4AF3-8D29-1A47EC74E47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A79A580-EFB7-4AF3-8D29-1A47EC74E47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A79A580-EFB7-4AF3-8D29-1A47EC74E47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF236E0-8C1B-4A9A-B414-4C4200766573}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF236E0-8C1B-4A9A-B414-4C4200766573}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF236E0-8C1B-4A9A-B414-4C4200766573}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF236E0-8C1B-4A9A-B414-4C4200766573}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,7 +12,7 @@ internal class StockExchangeMonitor
         {
             int bankOfAmericaPrice = new Random().Next(100);
 
-            PriceChangeHandler(bankOfAmericaPrice);
+            PriceChangeHandler(bankOfAmericaPrice);                 //Notification of the new price to all interested parties
 
             Thread.Sleep(2000);
         }
